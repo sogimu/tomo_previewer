@@ -1,11 +1,11 @@
 {
-  "name": "tomo_viewer",
-  "version": "0.0.1",
-  "homepage": "https://github.com/kit-ipe/tomo_viewer",
+  "name": "tomo_previewer",
+  "version": "0.3.1",
+  "homepage": "https://github.com/kit-ipe/tomo_previewer",
   "authors": [
     "Aleksandr Lizin <sogimu@nxt.ru>"
   ],
-  "description": "Viewer tomographic data for project ASTOR",
+  "description": "Viewer of tomographic data for project ASTOR",
   "keywords": [
     "raycasting",
     "3D",
@@ -20,7 +20,7 @@
     ""
   ],
   "dependencies": {
-    "tomo_raycaster2": "~0.51.1"
+    "tomo_raycaster2": "~0.52.1"
   }
 
 }

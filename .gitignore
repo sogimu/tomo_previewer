@@ -1,0 +1,3 @@
+*.pyc
+*.log
+app/static/js/libs

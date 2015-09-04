@@ -2,6 +2,32 @@
 	<head>
 	</head>
 	<body>
-	wefkwpoekfpo {{ salutation }} & {{ target }}
+		<table border="1">
+			<caption>Slices pathes...</caption>
+			<tr>
+				<th>Path</th>
+				<th>Size, px</th>
+				<th>Rows and cols</th>
+				<th>Slice name format</th>
+				<th>Done</th>
+				<th>Processing is going</th>
+				<th>Has error</th>
+				<th>Processing time, s</th>
+			</tr>
+			
+			{% for slicemap in slicemaps%}
+			<tr>
+		    	<td> <a href={{ create_link_for_preview( slicemap.path_to_slices )}} target="_blank">{{ slicemap.path_to_slices }}</a></td>
+		    	<td>{{ slicemap.width }}x{{ slicemap.height }}</td>
+		    	<td>{{ slicemap.rows }}x{{ slicemap.cols }}</td>
+		    	<td>{{ slicemap.slice_name_format }}</td>
+		    	<td>{{ "True" if slicemap.done == True else "False" }}</td>
+		    	<td>{{ "True" if slicemap.creation_going == True else "False" }}</td>
+		    	<td>{{ "True" if slicemap.has_error == True else "False" }}</td>
+		    	<td>{{ slicemap.time }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
 	</body>
 </html>

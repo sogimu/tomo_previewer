@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<script type="text/javascript" src="static/js/libs/threejs/build/three.min.js"></script>
+		<script type="text/javascript" src="static/js/OrbitControls.js"></script>
+		<script type="text/javascript" src="static/js/libs/tomo_raycaster2/build/volumeRaycaster.js"></script>
+		<script type="text/javascript" src="static/js/libs/dat.gui/dat.gui.min.js"></script>
+		<script type="text/javascript" src="static/js/dat.gui.helper.js"></script>
+
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			window.onload = function()
+			{				
+				var config = {
+					"dom_container_id": "container",
+		            "renderer_size": [512, 512],
+					"auto_steps": true,
+				};
+
+				trc2 = new VRC.VolumeRaycaster(config);
+
+				trc2.uploadConfig("{{ slicemap_obj.path_to_config_relative }}");
+
+				InitGUI(trc2.getConfig(), trc2);
+			};
+
+		</script>
+
+		<div id="container">
+		    Path to slices: <span class="bold">{{ slicemap_obj.path_to_slices }}</span><br />
+		    <img id="transferFunctionImage"/>
+
+		</div>
+	</body>
+</html>

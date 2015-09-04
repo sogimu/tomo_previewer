@@ -2,16 +2,18 @@ import sys
 import os
 
 class Settings():
-	# @staticmethod
-	IMPORT_PATH = "/home/sogimu/data/"
-	EXPORT_PATH = "/home/sogimu/slicemaps"
-	# SLICEMAP_FOLDER_NAME = "slicemaps"
+	URL_PREFIX = "http://"
+	URL = "0.0.0.0"
+	PORT = 8080
+	IMPORT_PATH = "/home/sogimu/data"
+	CACHE_FOLDER_NAME = "cache"
+	PROCESSING_CACHE_FOLDER_NAME = "slicemaps"
+	PROCESSING_CONFIG_NAME_FORMAT = "processing_config.json"
 	SLICE_NAME_FORMAT = "^([\D,\d]+\d+.tif)$"
 	SLICEMAP_NAME_FORMAT = "slicemap{0}.jpeg"
-	CONFIG_NAME_FORMAT = "slicemap_config.json"
+	VISUALIZATION_CONFIG_NAME_FORMAT = "visualization_config.json"
 	SLICEMAP_ROWS = 10
 	SLICEMAP_COLS = 10
 	SLICEMAP_SIZE_WIDTH = 4096
 	SLICEMAP_SIZE_HEIGHT = 4096
 	SLICEMAP_PROCESSING_THREADS_NUMBER = 4
-	
