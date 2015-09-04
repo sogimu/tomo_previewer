@@ -1,0 +1,3 @@
+[submodule "slice_map_creator"]
+	path = slice_map_creator
+	url = https://github.com/kit-ipe/slice_map_creator.git

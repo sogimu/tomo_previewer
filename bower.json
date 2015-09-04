@@ -1,0 +1,26 @@
+{
+  "name": "tomo_viewer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/kit-ipe/tomo_viewer",
+  "authors": [
+    "Aleksandr Lizin <sogimu@nxt.ru>"
+  ],
+  "description": "Viewer tomographic data for project ASTOR",
+  "keywords": [
+    "raycasting",
+    "3D",
+    "WebGL",
+    "Threejs",
+    "tomodata",
+    "tomographia"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    ""
+  ],
+  "dependencies": {
+    "tomo_raycaster2": "~0.51.1"
+  }
+
+}
