@@ -8,14 +8,14 @@ from proc import SlicemapFactory
 
 class Utils():
     @staticmethod
-    def get_slices_dirs(start_path, slice_name_format):
-        def get_slices_dirs_recurs(start_path, slice_name_format, pathes):
-            files_names = sorted( os.listdir(start_path) )
+    def get_slices_dirs(path_to_data, slice_name_format):
+        def get_slices_dirs_recurs(path_to_data, slice_name_format, pathes):
+            files_names = sorted( os.listdir(path_to_data) )
 
             is_dir_with_slices = False
             for file_name in files_names:
-                if os.path.isdir( os.path.join(start_path, file_name) ):
-                    get_slices_dirs_recurs( os.path.join(start_path, file_name), slice_name_format, pathes)
+                if os.path.isdir( os.path.join(path_to_data, file_name) ):
+                    get_slices_dirs_recurs( os.path.join(path_to_data, file_name), slice_name_format, pathes)
 
                 else:
                     if re.match(slice_name_format, file_name):
@@ -23,10 +23,10 @@ class Utils():
                         break
                     
             if(is_dir_with_slices):
-                pathes.append( start_path )
+                pathes.append( path_to_data )
 
         pathes = []
-        get_slices_dirs_recurs(start_path, slice_name_format, pathes)
+        get_slices_dirs_recurs(path_to_data, slice_name_format, pathes)
         return pathes
 
     @staticmethod

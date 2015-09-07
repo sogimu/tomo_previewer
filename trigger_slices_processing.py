@@ -53,12 +53,13 @@ def createParser ():
  
     # Добавляем параметры
     create_group.add_argument ('-ip', '--import-path', type=input_path, default=Settings.IMPORT_PATH,
-            help = 'Path to directory with tomographic data (slices, images).',
-            metavar = 'STR')
+            help = 'Path to directory with tomographic data (slices, images).')
 
     create_group.add_argument ('-snf', '--slice-name-format', type=str, default=Settings.SLICE_NAME_FORMAT,
-            help = r'Format name of slices (image). Example: ^(slice_\d+.tif)$',
-            metavar = 'STR')
+            help = r'Format name of slices (image). Example: ^(slice_\d+.tif)$')
+
+    create_group.add_argument ('-f', '--force', type=bool, default=False,
+            help = r'Force creation even slicemaps already created')
 
     create_group.add_argument ('--help', '-h', action='help', help='Help')
     return parser
@@ -68,7 +69,10 @@ if __name__ == '__main__':
     namespace = parser.parse_args(sys.argv[1:])
     
     if namespace.command   == "run":
-        paths_for_processing = Utils.get_slices_dirs_for_processing(namespace.import_path, namespace.slice_name_format)
+        if( namespace.force == False ):
+            paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_name_format )
+        else:
+            paths_for_processing = Utils.get_slices_dirs( namespace.import_path, namespace.slice_name_format )
 
         sf = SlicemapFactory()
         sf.processMany( paths_for_processing )
@@ -79,7 +83,7 @@ if __name__ == '__main__':
             'paths_to_the_new_volumes': paths_for_processing
         }
 
-        print json.dumps( status )
+        cherrypy.log( json.dumps( status ) )
 
     else:
         parser.print_help()
