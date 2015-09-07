@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # -*- coding: UTF-8 -*-
 import sys
 import os
@@ -13,7 +13,7 @@ version = "0.9.0"
 
 def input_path(filePath):
     if not(bool(os.path.isdir(filePath))):
-        msg = "%r bad path " % string
+        msg = "%r bad path " % filePath
         raise argparse.ArgumentTypeError(msg)
     return filePath
 
