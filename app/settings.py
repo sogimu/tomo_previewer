@@ -3,9 +3,11 @@ import os
 
 class Settings():
 	URL_PREFIX = "http://"
+
+	# URL = "ipecluster7.ipe.kit.edu"
 	URL = "0.0.0.0"
 	PORT = 8080
-	IMPORT_PATH = "/home/sogimu/data"
+	IMPORT_PATH = "./data"
 	CACHE_FOLDER_NAME = "cache"
 	PROCESSING_CACHE_FOLDER_NAME = "slicemaps"
 	PROCESSING_CONFIG_NAME_FORMAT = "processing_config.json"
