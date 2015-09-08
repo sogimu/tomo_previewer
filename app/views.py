@@ -42,6 +42,17 @@ class App(object):
         return status
 
     @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def get_all_previews(self):
+        slicemaps = Utils.get_slicemaps( Settings.IMPORT_PATH, Settings.SLICE_NAME_FORMAT )
+        
+        slicemaps_python_array = []
+        for slicemap in slicemaps:
+            slicemaps_python_array.append( slicemap.to_array() )
+
+        return slicemaps_python_array
+
+    @cherrypy.expose
     def show_preview(self, path_to_slices):
         sf = SlicemapFactory()
 
