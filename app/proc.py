@@ -102,8 +102,9 @@ class SlicemapFactory():
         slicemapProc.start()
 
     def processMany(self, paths_for_processing):
-        slicemapsProc = SlicemapsProcess(paths_for_processing)
-        slicemapsProc.start()
+        if len(paths_for_processing) > 0:
+            slicemapsProc = SlicemapsProcess(paths_for_processing)
+            slicemapsProc.start()
 
     def remove(self, path_to_slices):
         pass

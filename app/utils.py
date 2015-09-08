@@ -8,7 +8,7 @@ from proc import SlicemapFactory
 
 class Utils():
     @staticmethod
-    def get_slices_dirs(path_to_data, slice_name_format):
+    def get_slices_dirs(path_to_data, slice_path_format):
         def get_slices_dirs_recurs(path_to_data, slice_name_format, pathes):
             files_names = sorted( os.listdir(path_to_data) )
 
@@ -18,7 +18,8 @@ class Utils():
                     get_slices_dirs_recurs( os.path.join(path_to_data, file_name), slice_name_format, pathes)
 
                 else:
-                    if re.match(slice_name_format, file_name):
+                    file_path_absolute = os.path.join( path_to_data, file_name )
+                    if re.match(slice_path_format, file_path_absolute):
                         is_dir_with_slices = True
                         break
                     
@@ -26,12 +27,12 @@ class Utils():
                 pathes.append( path_to_data )
 
         pathes = []
-        get_slices_dirs_recurs(path_to_data, slice_name_format, pathes)
+        get_slices_dirs_recurs(path_to_data, slice_path_format, pathes)
         return pathes
 
     @staticmethod
-    def get_slices_dirs_for_processing(path_to_data, slice_name_format):
-        potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_name_format)
+    def get_slices_dirs_for_processing(path_to_data, slice_path_format):
+        potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_path_format)
 
         sf = SlicemapFactory()
 
@@ -54,8 +55,8 @@ class Utils():
         return Settings.URL_PREFIX + Settings.URL + ":" + str(Settings.PORT) + "/show_preview?path_to_slices=" + path_to_slices
 
     @staticmethod
-    def get_slicemaps(path_to_data, slice_name_format):
-        potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_name_format)
+    def get_slicemaps(path_to_data, slice_path_format):
+        potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_path_format)
 
         sf = SlicemapFactory()
 

@@ -11,7 +11,8 @@ class Settings():
 	CACHE_FOLDER_NAME = "cache"
 	PROCESSING_CACHE_FOLDER_NAME = "slicemaps"
 	PROCESSING_CONFIG_NAME_FORMAT = "processing_config.json"
-	SLICE_NAME_FORMAT = "^([\D,\d]+\d+.tif)$"
+	SLICE_NAME_FORMAT = "^(.*\d+.tif)$"
+	SLICE_PATH_FORMAT = ".*\/tomo_data\/.*slices.*\/(.*\d+.tif)"
 	SLICEMAP_NAME_FORMAT = "slicemap{0}.jpeg"
 	VISUALIZATION_CONFIG_NAME_FORMAT = "visualization_config.json"
 	SLICEMAP_ROWS = 10

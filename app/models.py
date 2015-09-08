@@ -82,7 +82,7 @@ class SliceMap():
         self.width = width
         self.height = height
 
-    def save(self):
+    def to_array(self):
         model_python_array = {
             "path_to_slices": self.path_to_slices,
             "path_to_cache": self.path_to_cache,
@@ -103,6 +103,10 @@ class SliceMap():
             "path_to_slicemaps_config_and_cache": self.path_to_slicemaps_config_and_cache
         }
 
+        return model_python_array
+
+    def save(self):
+        model_python_array = self.to_array()
         model_json_array = json.dumps( model_python_array )
 
         if( not( os.path.isdir(self.path_to_slicemaps_config_and_cache) ) ):
@@ -142,7 +146,6 @@ class SliceMap():
         self.path_to_slicemaps_config_and_cache = cache_config_file_python_array["path_to_slicemaps_config_and_cache"]
 
         cache_config_file.close()
-
 
     def __repr__(self):
         return '<SliceMap path_to_slices={}, path_to_cache={}, slices_dir_name={}, file_name={}, done={}, creation_going={}, has_error={}, width={}, height={}, time={}, slice_name_format={}, slicemap_name_format={}, config_name_format={}>. rows={}, cols={}, slices_number={}, path_to_slicemaps_config_and_cache={}'.format(self.path_to_slices, self.path_to_cache, self.slices_dir_name, self.file_name, self.done, self.creation_going, self.has_error, self.width, self.height, self.time, self.slice_name_format, self.slicemap_name_format, self.config_name_format, self.rows, self.cols, self.slices_number, self.path_to_slicemaps_config_and_cache)

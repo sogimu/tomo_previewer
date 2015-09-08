@@ -4,6 +4,7 @@ import sys
 import os
 import argparse
 import json
+import cherrypy
 
 from app.settings import Settings
 from app.proc import SlicemapFactory
@@ -55,8 +56,8 @@ def createParser ():
     create_group.add_argument ('-ip', '--import-path', type=input_path, default=Settings.IMPORT_PATH,
             help = 'Path to directory with tomographic data (slices, images).')
 
-    create_group.add_argument ('-snf', '--slice-name-format', type=str, default=Settings.SLICE_NAME_FORMAT,
-            help = r'Format name of slices (image). Example: ^(slice_\d+.tif)$')
+    create_group.add_argument ('-snf', '--slice-path-format', type=str, default=Settings.SLICE_PATH_FORMAT,
+            help = r'Format of slices(images) path. Example: [\D,\d]*?(tomo_data.*slices[\D,\d]*?/[^/]+\d+.tif)')
 
     create_group.add_argument ('-f', '--force', type=bool, default=False,
             help = r'Force creation even slicemaps already created')
@@ -70,20 +71,14 @@ if __name__ == '__main__':
     
     if namespace.command   == "run":
         if( namespace.force == False ):
-            paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_name_format )
+            paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_path_format )
         else:
-            paths_for_processing = Utils.get_slices_dirs( namespace.import_path, namespace.slice_name_format )
+            paths_for_processing = Utils.get_slices_dirs( namespace.import_path, namespace.slice_path_format )
 
         sf = SlicemapFactory()
         sf.processMany( paths_for_processing )
 
-        status = {
-            'triggered': True,
-            'number_of_new_volumes': len(paths_for_processing),
-            'paths_to_the_new_volumes': paths_for_processing
-        }
-
-        cherrypy.log( json.dumps( status ) )
+        cherrypy.log( "triggered: %s, number_of_new_volumes: %s, paths_to_the_new_volumes: %s" % (True, len(paths_for_processing), paths_for_processing) )
 
     else:
         parser.print_help()
