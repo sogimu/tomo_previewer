@@ -22,7 +22,15 @@
 
 				trc2.uploadConfig("{{ slicemap_obj.path_to_config_relative }}");
 
-				InitGUI(trc2.getConfig(), trc2);
+				trc2.addCallback("onLoadSlicemaps", function() {
+					InitGUI( trc2.getConfig(), trc2);
+											
+					trc2.addCallback("onPostDraw", function() {
+						UpdateGUI( trc2.getConfig() );
+
+					});
+
+				});
 			};
 
 		</script>
