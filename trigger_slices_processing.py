@@ -70,10 +70,7 @@ if __name__ == '__main__':
     namespace = parser.parse_args(sys.argv[1:])
     
     if namespace.command   == "run":
-        if( namespace.force == False ):
-            paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_path_format )
-        else:
-            paths_for_processing = Utils.get_slices_dirs( namespace.import_path, namespace.slice_path_format )
+        paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_path_format, namespace.force )
 
         sf = SlicemapFactory()
         sf.processMany( paths_for_processing )

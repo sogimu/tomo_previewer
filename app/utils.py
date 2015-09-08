@@ -31,7 +31,7 @@ class Utils():
         return pathes
 
     @staticmethod
-    def get_slices_dirs_for_processing(path_to_data, slice_path_format):
+    def get_slices_dirs_for_processing(path_to_data, slice_path_format, process_all=False):
         potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_path_format)
 
         sf = SlicemapFactory()
@@ -41,7 +41,7 @@ class Utils():
         for potential_path in potential_paths_for_processing:
             if( sf.isExist( potential_path ) == True):
                 slicemap_obj = sf.get( potential_path )
-                if( (slicemap_obj.done == False or os.path.isdir( slicemap_obj.path_to_slicemaps_config_and_cache ) == False) and slicemap_obj.creation_going == False ):
+                if( (slicemap_obj.done == False or os.path.isdir( slicemap_obj.path_to_slicemaps_config_and_cache ) == False) and slicemap_obj.creation_going == False or process_all ):
                     paths_for_processing.append( potential_path )
 
             else:
