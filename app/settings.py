@@ -4,8 +4,8 @@ import os
 class Settings():
 	URL_PREFIX = "http://"
 
-	URL = "ipecluster7.ipe.kit.edu"
-	# URL = "0.0.0.0"
+	# URL = "ipecluster7.ipe.kit.edu"
+	URL = "ankaastor2.anka.kit.edu"
 	PORT = 8080
 	IMPORT_PATH = "./data"
 	CACHE_FOLDER_NAME = "cache"
