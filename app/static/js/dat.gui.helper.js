@@ -2,8 +2,7 @@ guiControls = new function() {
 	this.gray_min = -1;
 	this.gray_max = -1;
 	this.steps = -1;
-	this.quality = -1;
-	this.renderer_canvas_size = -1 + "x" + -1;
+	this.render_size = 8;
 	this.absorption_mode = -1;
 	this.opacity_factor = -1;
 	this.color_factor = -1;
@@ -13,8 +12,8 @@ guiControls = new function() {
 	this.y_max = -1;
 	this.z_min = -1;
 	this.z_max = -1;
-	this.colormap = 0;
-	this.thresholding = 0;
+	this.colormap = 13;
+	this.thresholding = 4;
 
 	this.auto_steps = -1;
 };
@@ -23,8 +22,6 @@ var UpdateGUI = function(config) {
 	guiControls.gray_min = config["gray_min"];
 	guiControls.gray_max = config["gray_max"];
 	guiControls.steps = config["steps"];
-	guiControls.quality = config["renderer_size"][0];
-	guiControls.renderer_canvas_size = config["renderer_canvas_size"][0] + "x" + config["renderer_canvas_size"][1];
 	guiControls.absorption_mode = config["absorption_mode"];
 	guiControls.opacity_factor = config["opacity_factor"];
 	guiControls.color_factor = config["color_factor"];
@@ -43,57 +40,57 @@ var InitGUI = function(config, rcl2) {
 
 	var gui = new dat.GUI();
 
-	var x_min_controller = gui.add(guiControls, 'x_min', 0, 1, 0.1).listen();
+	var x_min_controller = gui.add(guiControls, 'x_min', 0, 1, 0.1);
 	x_min_controller.onChange(function(value) {
 		rcl2.setGeometryMinX(value);
 	});
 
-	var x_max_controller = gui.add(guiControls, 'x_max', 0, 1, 0.1).listen();
+	var x_max_controller = gui.add(guiControls, 'x_max', 0, 1, 0.1);
 	x_max_controller.onChange(function(value) {
 		rcl2.setGeometryMaxX(value);
 	});
 
-	var y_min_controller = gui.add(guiControls, 'y_min', 0, 1, 0.1).listen();
+	var y_min_controller = gui.add(guiControls, 'y_min', 0, 1, 0.1);
 	y_min_controller.onChange(function(value) {
 		rcl2.setGeometryMinY(value);
 	});
 
-	var y_max_controller = gui.add(guiControls, 'y_max', 0, 1, 0.1).listen();
+	var y_max_controller = gui.add(guiControls, 'y_max', 0, 1, 0.1);
 	y_max_controller.onChange(function(value) {
 		rcl2.setGeometryMaxY(value);
 	});
 
-	var z_min_controller = gui.add(guiControls, 'z_min', 0, 1, 0.1).listen();
+	var z_min_controller = gui.add(guiControls, 'z_min', 0, 1, 0.1);
 	z_min_controller.onChange(function(value) {
 		rcl2.setGeometryMinZ(value);
 	});
 
-	var z_max_controller = gui.add(guiControls, 'z_max', 0, 1, 0.1).listen();
+	var z_max_controller = gui.add(guiControls, 'z_max', 0, 1, 0.1);
 	z_max_controller.onChange(function(value) {
 		rcl2.setGeometryMaxZ(value);
 	});
 
-	var steps_controller = gui.add(guiControls, 'steps', 15, 2048, 10).listen();
+	var steps_controller = gui.add(guiControls, 'steps', 10, rcl2.getMaxStepsNumber(), 1).listen();
 	steps_controller.onFinishChange(function(value) {
 		rcl2.setSteps(value);
 	});
 
-	var auto_steps_controller = gui.add(guiControls, 'auto_steps').listen();
+	var auto_steps_controller = gui.add(guiControls, 'auto_steps');
 	auto_steps_controller.onChange(function(value) {
 		rcl2.setAutoStepsOn(value);
 	});
 
-	var absorbtion_mode_controller = gui.add(guiControls, 'absorption_mode', {"MIPS": 0, "X-ray": 1, "Maximum projection intensivity": 2}).listen();
+	var absorbtion_mode_controller = gui.add(guiControls, 'absorption_mode', {"MIPS": 0, "X-ray": 1, "Maximum projection intensivity": 2});
 	absorbtion_mode_controller.onChange(function(value) {
 		rcl2.setAbsorptionMode(value);
 	});
 
-	var color_factor_controller = gui.add(guiControls, 'color_factor', 0, 20, 0.1).listen();
+	var color_factor_controller = gui.add(guiControls, 'color_factor', 0, 20, 0.1);
 	color_factor_controller.onChange(function(value) {
 		rcl2.setColorFactor(value);
 	});
 
-	var opacity_factor_controller = gui.add(guiControls, 'opacity_factor', 0, 50, 0.1).listen();
+	var opacity_factor_controller = gui.add(guiControls, 'opacity_factor', 0, 50, 0.1);
 	opacity_factor_controller.onChange(function(value) {
 		rcl2.setOpacityFactor(value);
 	});
@@ -108,14 +105,45 @@ var InitGUI = function(config, rcl2) {
 		rcl2.setGrayMaxValue(value);
 	});
 
-	var quality_controller = gui.add(guiControls, 'quality', 1, 2048, 1).listen();
-	quality_controller.onFinishChange(function(value) {
-		rcl2.setRendererSize(value, value);
-	});
+	var render_size_controller = gui.add(guiControls, 'render_size', {"128": 0, "256": 1, "512": 2, "768": 3, "1024": 4, "2048": 5, "4096": 6, "*": 7, "default": 8}, 8);
+	render_size_controller.onFinishChange(function(value) {
+		switch(value) {
+			case "0": {
+				rcl2.setRenderSize(128, 128);
 
-	var renderer_canvas_size_controller = gui.add(guiControls, 'renderer_canvas_size').listen();
-	renderer_canvas_size_controller.onFinishChange(function(value) {
-		rcl2.setRendererCanvasSize(value.split('x')[0], value.split('x')[1]);
+			}; break;			
+			case "1": {
+				rcl2.setRenderSize(256, 256);
+
+			}; break;			
+			case "2": {
+				rcl2.setRenderSize(512, 512);
+
+			}; break;			
+			case "3": {
+				rcl2.setRenderSize(768, 768);
+
+			}; break;
+			case "4": {
+				rcl2.setRenderSize(1024, 1024);
+
+			}; break;
+			case "5": {
+				rcl2.setRenderSize(2048, 2048);
+
+			}; break;
+			case "6": {
+				rcl2.setRenderSize(4096, 4096);
+
+			}; break;
+			case "7": {
+				rcl2.setRenderSize('*', '*');
+
+			}; break;
+			case "8": {
+
+			}; break;
+		}
 	});
 
 	var transfer_function_controller = gui.add(guiControls, 'colormap', {
@@ -131,11 +159,11 @@ var InitGUI = function(config, rcl2) {
 		"gray": 9,
 		"bone": 10,
 		"copper": 11,
-		"pink": 12
+		"pink": 12,
+		"default": 13,
 	});
 
 	transfer_function_controller.onChange(function(value) {
-		console.log(value)
 		switch(value) {
 			case "0": {
 				rcl2.setTransferFunctionByColors([
@@ -234,6 +262,8 @@ var InitGUI = function(config, rcl2) {
 				    {"pos": 1,    "color": "#ffffff"}
 				]);
 			} break;
+			case "13": {
+			} break;
 		}
 
 		return value;
@@ -244,25 +274,31 @@ var InitGUI = function(config, rcl2) {
 		"otsu": 0, 
 		"isodata": 1,
 		"yen": 2,
-		"li": 3
+		"li": 3,
+		"no": 4,
 	});
 
 	thresholding_controller.onChange(function(value) {
 		switch(value) {
 			case "0": {
-				trc2.applyThresholding("otsu");
+				rcl2.applyThresholding("otsu");
 			} break;
 
 			case "1": {
-				trc2.applyThresholding("isodata");
+				rcl2.applyThresholding("isodata");
 			} break;
 
 			case "2": {
-				trc2.applyThresholding("yen");
+				rcl2.applyThresholding("yen");
 			} break;
 
 			case "3": {
-				trc2.applyThresholding("li");
+				rcl2.applyThresholding("li");
+			} break;
+
+			case "4": {
+				trc2.setGrayMinValue(0);
+				trc2.setGrayMaxValue(1);
 			} break;
 		}
 

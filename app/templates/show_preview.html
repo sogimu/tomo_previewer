@@ -5,6 +5,7 @@
 		<script type="text/javascript" src="static/js/libs/tomo_raycaster2/build/volumeRaycaster.js"></script>
 		<script type="text/javascript" src="static/js/libs/dat.gui/dat.gui.min.js"></script>
 		<script type="text/javascript" src="static/js/dat.gui.helper.js"></script>
+		<script type="text/javascript" src="static/js/libs/embeddedjs/ejs.js"></script>
 
 	</head>
 
@@ -12,25 +13,31 @@
 		<script type="text/javascript">
 			window.onload = function()
 			{				
-				var config = {
-					"dom_container_id": "container",
-		            "renderer_size": [512, 512],
-					"auto_steps": true,
-				};
+				// try {
+					var config = {
+						"dom_container_id": "container",
+			            "render_size": [512, 512],
+						"auto_steps": true,
+					};
 
-				trc2 = new VRC.VolumeRaycaster(config);
+					trc2 = new VRC.VolumeRaycaster(config);
 
-				trc2.uploadConfig("{{ slicemap_obj.path_to_config_relative }}");
+					trc2.uploadConfig("{{ slicemap_obj.path_to_config_relative }}");
 
-				trc2.addCallback("onLoadSlicemaps", function() {
-					InitGUI( trc2.getConfig(), trc2);
-											
-					trc2.addCallback("onPostDraw", function() {
-						UpdateGUI( trc2.getConfig() );
+					trc2.addCallback("onLoadSlicemaps", function() {
+						InitGUI( trc2.getConfig(), trc2);
+												
+						trc2.addCallback("onPostDraw", function() {
+							UpdateGUI( trc2.getConfig() );
+
+						});
 
 					});
+				// }
 
-				});
+				// catch (e) {
+				// 	alert(e);
+				// }
 			};
 
 		</script>

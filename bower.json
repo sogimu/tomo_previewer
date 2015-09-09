@@ -20,7 +20,7 @@
     ""
   ],
   "dependencies": {
-    "tomo_raycaster2": "~0.53.2"
+    "tomo_raycaster2": "~0.54.2"
   }
 
 }
