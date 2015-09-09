@@ -4,6 +4,7 @@ import sys
 import os
 import argparse
 import json
+from time import gmtime, strftime
 import cherrypy
 
 from app.settings import Settings
@@ -75,6 +76,7 @@ if __name__ == '__main__':
         sf = SlicemapFactory()
         sf.processMany( paths_for_processing )
 
+        print( json.dumps({"triggered": True, "number_of_new_volumes": len(paths_for_processing), "paths_to_the_new_volumes": paths_for_processing, "datetime": strftime("%d-%m-%Y %H:%M:%S", gmtime()) }) )
         cherrypy.log( "triggered: %s, number_of_new_volumes: %s, paths_to_the_new_volumes: %s" % (True, len(paths_for_processing), paths_for_processing) )
 
     else:
