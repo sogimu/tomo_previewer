@@ -8,7 +8,7 @@ from time import gmtime, strftime
 import cherrypy
 
 from app.settings import Settings
-from app.proc import SlicemapFactory
+from app.proc import PreviewFactory
 from app.utils import Utils
 
 version = "0.9.0"
@@ -71,13 +71,15 @@ if __name__ == '__main__':
     namespace = parser.parse_args(sys.argv[1:])
     
     if namespace.command   == "run":
-        paths_for_processing = Utils.get_slices_dirs_for_processing( namespace.import_path, namespace.slice_path_format, namespace.force )
+        previews_for_processing = Utils.get_previews_for_processing( namespace.import_path, namespace.slice_path_format, namespace.force )
 
-        sf = SlicemapFactory()
-        sf.processMany( paths_for_processing )
+        sf = PreviewFactory()
+        sf.processMany( previews_for_processing )
 
-        print( json.dumps({"triggered": True, "number_of_new_volumes": len(paths_for_processing), "paths_to_the_new_volumes": paths_for_processing, "datetime": strftime("%d-%m-%Y %H:%M:%S", gmtime()) }) )
-        cherrypy.log( "triggered: %s, number_of_new_volumes: %s, paths_to_the_new_volumes: %s" % (True, len(paths_for_processing), paths_for_processing) )
+        paths_for_processing = [ preview.path_to_slices for preview in previews_for_processing ]
+
+        print( json.dumps({"triggered": True, "number_of_new_volumes": len(paths_for_processing), "paths_for_processing": paths_for_processing, "datetime": strftime("%d-%m-%Y %H:%M:%S", gmtime()) }) )
+        cherrypy.log( "triggered: %s, paths_for_processing: %s, paths_for_processing: %s" % (True, len(paths_for_processing), paths_for_processing) )
 
     else:
         parser.print_help()

@@ -4,19 +4,18 @@ import os
 class Settings():
 	URL_PREFIX = "http://"
 
-	# URL = "ipecluster7.ipe.kit.edu"
-	URL = "ankaastor2.anka.kit.edu"
+	URL = "ipecluster7.ipe.kit.edu"
+	# URL = "ankaastor2.anka.kit.edu"
 	PORT = 8080
 	IMPORT_PATH = "./data"
 	CACHE_FOLDER_NAME = "cache"
-	PROCESSING_CACHE_FOLDER_NAME = "slicemaps"
-	PROCESSING_CONFIG_NAME_FORMAT = "processing_config.json"
+	PREVIEWS_CACHE_FOLDER_NAME = "previews"
+	PREVIEW_CONFIG_NAME = "preview_config.json"
+	SLICEMAPS_CONFIG_NAME = "slicemaps_config.json"
+	VISUALIZATION_CONFIG_NAME = "visualization_config.json"
 	SLICE_NAME_FORMAT = "^(.*\d+.tif)$"
 	SLICE_PATH_FORMAT = ".*\/tomo_data\/.*slices.*\/(.*\d+.tif)"
 	SLICEMAP_NAME_FORMAT = "slicemap{0}.jpeg"
-	VISUALIZATION_CONFIG_NAME_FORMAT = "visualization_config.json"
-	SLICEMAP_ROWS = 10
-	SLICEMAP_COLS = 10
-	SLICEMAP_SIZE_WIDTH = 4096
-	SLICEMAP_SIZE_HEIGHT = 4096
-	SLICEMAP_PROCESSING_THREADS_NUMBER = 4
+	PREVIEW_SLICEMAPS_NUMBERS = [2, 6, 14]
+	PREVIEW_SLICEMAPS_SIZES =   ["2048x2048", "4096x4096"]
+	PREVIEW_PROCESSING_THREADS_NUMBER = 3

@@ -22,7 +22,7 @@
 
 					trc2 = new VRC.VolumeRaycaster(config);
 
-					trc2.uploadConfig("{{ slicemap_obj.path_to_config_relative }}");
+					trc2.uploadConfig("{{ preview_obj.path_to_config_relative }}");
 
 					trc2.addCallback("onLoadSlicemaps", function() {
 						InitGUI( trc2.getConfig(), trc2);
@@ -43,7 +43,7 @@
 		</script>
 
 		<div id="container">
-		    Path to slices: <span class="bold">{{ slicemap_obj.path_to_slices }}</span><br />
+		    Path to slices: <span class="bold">{{ preview_obj.path_to_slices }}</span><br />
 		    <img id="transferFunctionImage"/>
 
 		</div>

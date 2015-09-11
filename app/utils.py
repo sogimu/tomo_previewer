@@ -4,7 +4,7 @@ import re
 import cherrypy
 
 from settings import Settings
-from proc import SlicemapFactory
+from proc import SlicemapFactory, PreviewFactory
 
 class Utils():
     @staticmethod
@@ -31,40 +31,40 @@ class Utils():
         return pathes
 
     @staticmethod
-    def get_slices_dirs_for_processing(path_to_data, slice_path_format, process_all=False):
+    def get_previews_for_processing(path_to_data, slice_path_format, process_all=False):
         potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_path_format)
 
-        sf = SlicemapFactory()
+        pf = PreviewFactory()
 
-        paths_for_processing = []
+        previews_for_processing = []
 
         for potential_path in potential_paths_for_processing:
-            if( sf.isExist( potential_path ) == True):
-                slicemap_obj = sf.get( potential_path )
-                if( (slicemap_obj.done == False or os.path.isdir( slicemap_obj.path_to_slicemaps_config_and_cache ) == False) and slicemap_obj.creation_going == False or process_all ):
-                    paths_for_processing.append( potential_path )
+            if( pf.isExist( potential_path ) == True):
+                preview_obj = pf.get( potential_path )
+                if( preview_obj.done == False and preview_obj.creation_going == False or process_all ):
+                    previews_for_processing.append( preview_obj )
 
             else:
-                slicemap_obj = sf.init(potential_path, Settings.SLICE_NAME_FORMAT, Settings.SLICEMAP_NAME_FORMAT, Settings.VISUALIZATION_CONFIG_NAME_FORMAT, Settings.SLICEMAP_ROWS, Settings.SLICEMAP_COLS, Settings.SLICEMAP_SIZE_WIDTH, Settings.SLICEMAP_SIZE_HEIGHT)
-                paths_for_processing.append( potential_path )
+                preview_obj = pf.init( potential_path, Settings.SLICE_NAME_FORMAT, Settings.SLICEMAP_NAME_FORMAT, Settings.PREVIEW_CONFIG_NAME, Settings.PREVIEW_SLICEMAPS_NUMBERS, Settings.PREVIEW_SLICEMAPS_SIZES )
+                previews_for_processing.append( preview_obj )
 
-        return paths_for_processing
+        return previews_for_processing
 
     @staticmethod
     def create_link_for_preview(path_to_slices):
         return Settings.URL_PREFIX + Settings.URL + ":" + str(Settings.PORT) + "/show_preview?path_to_slices=" + path_to_slices
 
     @staticmethod
-    def get_slicemaps(path_to_data, slice_path_format):
+    def get_previews(path_to_data, slice_path_format):
         potential_paths_for_processing = Utils.get_slices_dirs(path_to_data, slice_path_format)
 
-        sf = SlicemapFactory()
+        pf = PreviewFactory()
 
-        processed_slicedmaps = []
+        processed_slicemaps = []
 
         for potential_path in potential_paths_for_processing:
-            if( sf.isExist( potential_path ) == True):
-                slicemap_obj = sf.get( potential_path )
-                processed_slicedmaps.append( slicemap_obj )
+            if( pf.isExist( potential_path ) == True):
+                slicemap_obj = pf.get( potential_path )
+                processed_slicemaps.append( slicemap_obj )
 
-        return processed_slicedmaps
+        return processed_slicemaps
