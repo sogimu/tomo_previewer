@@ -14,25 +14,63 @@
 			window.onload = function()
 			{				
 				try {
+
 					var config = {
 						"dom_container_id": "container",
-			            "render_size": [512, 512],
+			            "render_size": [128, 128],
 						"auto_steps": true,
 					};
 
 					trc2 = new VRC.VolumeRaycaster(config);
 
-					trc2.uploadConfig("{{ preview_obj.path_to_config_relative }}");
+					function onLoad(config) {
+						trc2.uploadConfig( config["slicemaps_info"][0]["path_to_visualization_config"] );
 
-					trc2.addCallback("onLoadSlicemaps", function() {
-						InitGUI( trc2.getConfig(), trc2);
-												
-						trc2.addCallback("onPostDraw", function() {
-							UpdateGUI( trc2.getConfig() );
+						trc2.addCallback("onLoadSlicemaps", function() {
+							InitGUI( trc2.getConfig(), trc2);
+
+							trc2.addCallback("onPostDraw", function() {
+								UpdateGUI( trc2.getConfig() );
+
+							}); 
 
 						});
 
-					});
+					};
+
+					function onError() {
+
+					};
+
+					var path = "{{ preview_obj.path_to_config_relative }}";
+
+					var xmlhttp;
+
+					if (window.XMLHttpRequest) {
+					    // code for IE7+, Firefox, Chrome, Opera, Safari
+					    xmlhttp = new XMLHttpRequest();
+					} else {
+					    // code for IE6, IE5
+					    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+					}
+
+					xmlhttp.onreadystatechange = function() {
+					    if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+					        if(xmlhttp.status == 200){
+					            var config = JSON.parse(xmlhttp.responseText);
+					            if(onLoad != undefined) onLoad( config );
+					        } else if(xmlhttp.status == 400) {
+					            if(userOnError != undefined) userOnError(xmlhttp);
+					        } else {
+					            if(userOnError != undefined) userOnError(xmlhttp);
+					        }
+					    }
+
+					}
+
+					xmlhttp.open("GET", path, true);
+					xmlhttp.send();
+
 				}
 
 				catch (e) {
